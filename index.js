@@ -146,12 +146,15 @@ export function cosine_similarity(vec1, vec2) {
  * @param {filename} name if set, save embeddings to file
  * @returns Number 0 to 1
  */
-const test = async (input1, input2, name = null) => {
+export const test = async (input1, input2, name = null) => {
 	const Embedding1 = await createEmbedding(input1, MODEL, name ? name + '_1' : null);
 	const Embedding2 = await createEmbedding(input2, MODEL, name ? name + '_2' : null);
 
 	return cosine_similarity(Embedding1, Embedding2);
 };
+
+console.log(await test('tomato', 'cucumber'));
+// 0.8870093744404625
 
 export const EmbeddingListToGraph = async (embeddings, settings, onEach = (a) => a) => {
 	const dataset = EmbeddingsToSpace(embeddings, 2);
@@ -283,35 +286,3 @@ export const graph = async (
 
 	return { filename, buffer };
 };
-
-/*
-await graph(points, { header: 'Scatter point of random values', name: 'scatter.jpg', type: 'scatter' });
-await graph(points.slice(0, 10), { name: 'line.jpg', type: 'line' });
-*/
-const wordlist = [
-	'journalist',
-	'writer',
-	'newspaper',
-	'firetruck',
-	'fireman',
-	'fireplace',
-	'pencil',
-	'notebook',
-	'cucumber',
-	'cellphone',
-	'curious',
-	'drunk',
-	'dedicated',
-	'quote',
-	'television',
-	'source',
-	'tomato',
-	'analyse',
-	'data',
-	'code',
-	'editorial',
-];
-const words = await Promise.all(wordlist.map((item) => createEmbedding(item)));
-await EmbeddingListToGraph(words, { name: 'scatter_words.jpg', type: 'scatter', scale: 4 }, (a, i) => {
-	return [...a, null, wordlist[i]];
-});
