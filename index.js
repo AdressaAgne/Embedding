@@ -96,7 +96,7 @@ export const readEmbeddingFile = (filename) =>
  * @param {string} model embedding model
  * @returns Array(1536)
  */
-export const createEmbedding = async (input, model = MODEL, name = input.replace(/\s/g, '_').toLowerCase()) => {
+export const createEmbedding = async (input, model = MODEL, name = input.replace(/\s/g, '_').toLowerCase().slice(0, 20)) => {
 	const filename = path.join(DATA_DIR, name + '.dat');
 	if (name && (await exists(filename))) {
 		return await readEmbeddingFile(filename);
