@@ -34,14 +34,43 @@ export const MODEL = 'text-embedding-ada-002';
 export const MAX_TOKENS = 8191;
 export const EMBEDDING_SIZE = 1536;
 export const DATA_DIR = './data';
+/**
+ * Convert string to array of tokens
+ * @param {string} string
+ * @param {string} model
+ * @returns Array
+ */
 export const toTokens = (string, model = MODEL) => tokenizer.encode(string, model);
+
+/**
+ * Convert array of tokens to text
+ * @param {Array} array contains numbers
+ * @param {string} model
+ * @returns string
+ */
 export const fromTokens = (array, model = MODEL) => tokenizer.decode(array, model);
 
+/**
+ * check if file or folder exists
+ * @param {string} filename
+ * @returns Boolean
+ */
 export const exists = (filename) =>
 	fs.stat(filename).then(
 		() => true,
 		() => false
 	);
+
+/**
+ * Change min and max values
+ * @param {number} value current value
+ * @param {number} fromMin current min value
+ * @param {number} toMin to min value
+ * @param {number} fromMax current max value
+ * @param {number} toMax to max value
+ * @returns number
+ */
+export const rangeToRange = (value, fromMin, toMin, fromMax, toMax) => ((value - fromMin) * (toMax - toMin)) / (fromMax - fromMin) + toMin;
 
 /**
  * Setup
@@ -153,21 +182,17 @@ export const test = async (input1, input2, name = null) => {
 	return cosine_similarity(Embedding1, Embedding2);
 };
 
+/**
+ * @param {Array} embeddings Array of Embeddings
+ * @param {Object} settings graph settings
+ * @param {Function} onEach on Each embedding vector
+ * @returns
+ */
 export const EmbeddingListToGraph = async (embeddings, settings, onEach = (a) => a) => {
 	const dataset = EmbeddingsToSpace(embeddings, 2);
 	return await graph(dataset.map(onEach), settings);
 };
 
-/**
- * Change min and max values
- * @param {number} value current value
- * @param {number} fromMin current min value
- * @param {number} toMin to min value
- * @param {number} fromMax current max value
- * @param {number} toMax to max value
- * @returns number
- */
-export const rangeToRange = (value, fromMin, toMin, fromMax, toMax) => ((value - fromMin) * (toMax - toMin)) / (fromMax - fromMin) + toMin;
 /**
  *
  * @param {Array(Array(2|3|4))} data [[x, y, color?, text?], [x, y, color?, text?]]
