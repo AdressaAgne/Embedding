@@ -153,9 +153,6 @@ export const test = async (input1, input2, name = null) => {
 	return cosine_similarity(Embedding1, Embedding2);
 };
 
-console.log(await test('tomato', 'cucumber'));
-// 0.8870093744404625
-
 export const EmbeddingListToGraph = async (embeddings, settings, onEach = (a) => a) => {
 	const dataset = EmbeddingsToSpace(embeddings, 2);
 	return await graph(dataset.map(onEach), settings);
