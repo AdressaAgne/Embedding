@@ -170,8 +170,8 @@ export const EmbeddingListToGraph = async (embeddings, settings, onEach = (a) =>
 export const rangeToRange = (value, fromMin, toMin, fromMax, toMax) => ((value - fromMin) * (toMax - toMin)) / (fromMax - fromMin) + toMin;
 /**
  *
- * @param {Array(Array(2|3))} data [[x, y, color], [x, y, color]]
- * @param {string} type scatter
+ * @param {Array(Array(2|3|4))} data [[x, y, color?, text?], [x, y, color?, text?]]
+ * @param {string} type scatter | line
  */
 export const graph = async (
 	data,
