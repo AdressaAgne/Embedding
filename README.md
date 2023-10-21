@@ -4,6 +4,7 @@ Basic OpenAI Embedding test
 
 ```bash
 $ npm i
+# rename .env_template to .env
 # update OPENAI_API_KEY in .env
 $ npm run test
 ```
